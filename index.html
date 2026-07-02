@@ -299,6 +299,28 @@
         </a>
 
         <a 
+          href="https://PageDye.pages.dev" 
+          target="_blank" 
+          rel="noopener" 
+          class="premium-panel block p-5 rounded-lg border hover:translate-y-[-2px]"
+        >
+          <div class="flex justify-between items-start gap-4 mb-2">
+            <div class="flex items-center gap-3">
+              <div class="p-2 rounded bg-neutral-500/10 border border-neutral-500/20 opacity-80">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.3441 19.4855 5.22857 20.3019 4.85857 20.8586C4.42857 21.5019 3.5 21.5 3 22H12Z"></path><circle cx="7.5" cy="10.5" r="1.5"></circle><circle cx="11.5" cy="7.5" r="1.5"></circle><circle cx="16.5" cy="9.5" r="1.5"></circle><circle cx="15.5" cy="14.5" r="1.5"></circle></svg>
+              </div>
+              <h3 class="font-mono-tech text-sm font-semibold tracking-wide">PageDye</h3>
+            </div>
+            <span class="text-xs font-mono-tech opacity-30">GitHub ↗</span>
+          </div>
+          <div class="pl-11">
+            <p class="text-xs text-[var(--fg)] opacity-70 font-light leading-relaxed">
+              一键换肤所有网页，兼容大部分网站，支持更换网页壁纸。
+            </p>
+          </div>
+        </a>
+
+        <a 
           href="https://obsidian-openwrt.pages.dev/" 
           target="_blank" 
           rel="noopener" 
@@ -338,28 +360,6 @@
           <div class="pl-11">
             <p class="text-xs text-[var(--fg)] opacity-70 font-light leading-relaxed">
               隐身 AI 助手客户端，从安装到运行全程伪装为 Windows 系统显示驱动辅助工具。
-            </p>
-          </div>
-        </a>
-
-        <a 
-          href="https://PageDye.pages.dev" 
-          target="_blank" 
-          rel="noopener" 
-          class="premium-panel block p-5 rounded-lg border hover:translate-y-[-2px]"
-        >
-          <div class="flex justify-between items-start gap-4 mb-2">
-            <div class="flex items-center gap-3">
-              <div class="p-2 rounded bg-neutral-500/10 border border-neutral-500/20 opacity-80">
-                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.3441 19.4855 5.22857 20.3019 4.85857 20.8586C4.42857 21.5019 3.5 21.5 3 22H12Z"></path><circle cx="7.5" cy="10.5" r="1.5"></circle><circle cx="11.5" cy="7.5" r="1.5"></circle><circle cx="16.5" cy="9.5" r="1.5"></circle><circle cx="15.5" cy="14.5" r="1.5"></circle></svg>
-              </div>
-              <h3 class="font-mono-tech text-sm font-semibold tracking-wide">PageDye</h3>
-            </div>
-            <span class="text-xs font-mono-tech opacity-30">GitHub ↗</span>
-          </div>
-          <div class="pl-11">
-            <p class="text-xs text-[var(--fg)] opacity-70 font-light leading-relaxed">
-              一键换肤所有网页，兼容大部分网站，支持更换网页壁纸。
             </p>
           </div>
         </a>
@@ -416,6 +416,7 @@
       cursor.style.top = e.clientY + 'px';
     });
 
+    // 优化的指针交互逻辑，动态适应全局 CSS 变量的色彩变化
     const hoverables = document.querySelectorAll('a, button');
     hoverables.forEach(el => {
       el.addEventListener('mouseenter', () => {
@@ -426,6 +427,7 @@
       el.addEventListener('mouseleave', () => {
         cursor.style.width = '6px';
         cursor.style.height = '6px';
+        // 使用 CSS 变量自适应深浅色主题下的指针对比度
         cursor.style.backgroundColor = 'var(--fg)';
       });
     });
