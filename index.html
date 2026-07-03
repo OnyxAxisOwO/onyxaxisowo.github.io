@@ -164,9 +164,30 @@
   .projects { padding: 56px 0; }
   .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
   .section-head h2 { margin: 0; font-size: 21px; font-weight: 700; }
+  .section-head .head-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
   .section-head .count { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px; }
 
+  .archive-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
+  .archive-toggle .switch-label { font-family: var(--font-sans); font-size: 12.5px; color: var(--text-faint); }
+  .archive-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .archive-toggle .switch-track {
+    position: relative; width: 34px; height: 19px; border-radius: 999px;
+    background: var(--bg-alt); border: 1px solid var(--border); transition: background .18s ease, border-color .18s ease;
+  }
+  .archive-toggle .switch-track::after {
+    content: ""; position: absolute; top: 1px; left: 1px; width: 15px; height: 15px; border-radius: 50%;
+    background: var(--text-faint); transition: transform .18s ease, background .18s ease;
+  }
+  .archive-toggle input:checked + .switch-track { background: var(--accent); border-color: var(--accent); }
+  .archive-toggle input:checked + .switch-track::after { transform: translateX(15px); background: var(--accent-text); }
+
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
+  .card.archived { display: none; }
+  .grid.show-archived .card.archived { display: block; }
+  .archived-badge {
+    font-family: var(--font-sans); font-size: 10.5px; color: var(--text-faint);
+    border: 1px solid var(--border); border-radius: 999px; padding: 2px 7px; white-space: nowrap;
+  }
 
   .card {
     display: block; text-decoration: none; color: inherit;
@@ -262,10 +283,17 @@
   <div class="wrap">
     <div class="section-head">
       <h2>Projects</h2>
-      <span class="count">6 ACTIVE</span>
+      <div class="head-right">
+        <label class="archive-toggle">
+          <span class="switch-label">显示归档仓库</span>
+          <input type="checkbox" id="archiveToggle">
+          <span class="switch-track"></span>
+        </label>
+        <span class="count" id="projectCount">4 ACTIVE</span>
+      </div>
     </div>
 
-    <div class="grid">
+    <div class="grid" id="projectGrid">
 
       <a class="card featured" href="https://ai.onyxaxis.org" target="_blank" rel="noopener">
         <div class="card-head">
@@ -320,23 +348,25 @@
         <p>一款简洁现代的 OpenWrt / LuCI 主题。</p>
       </a>
 
-      <a class="card" href="https://github.com/OnyxAxisOwO/Veiled" target="_blank" rel="noopener">
+      <a class="card archived" href="https://github.com/OnyxAxisOwO/Veiled" target="_blank" rel="noopener">
         <div class="card-head">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg>
           </div>
           <span class="card-title">Veiled</span>
+          <span class="archived-badge">已归档</span>
           <span class="card-link">GitHub ↗</span>
         </div>
         <p>隐身 AI 助手客户端，从安装到运行全程伪装为 Windows 系统显示驱动辅助工具。</p>
       </a>
 
-      <a class="card" href="https://github.com/OnyxAxisOwO/ImmersiveProxy" target="_blank" rel="noopener">
+      <a class="card archived" href="https://github.com/OnyxAxisOwO/ImmersiveProxy" target="_blank" rel="noopener">
         <div class="card-head">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg>
           </div>
           <span class="card-title">ImmersiveProxy</span>
+          <span class="archived-badge">已归档</span>
           <span class="card-link">GitHub ↗</span>
         </div>
         <p>将沉浸式翻译 API 逆向转换为 OpenAI 格式。</p>
@@ -375,6 +405,27 @@
     var next = isDark ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
     try { localStorage.setItem('onyxaxis-theme', next); } catch (e) {}
+  });
+
+  var archiveToggle = document.getElementById('archiveToggle');
+  var projectGrid = document.getElementById('projectGrid');
+  var projectCount = document.getElementById('projectCount');
+  var archivedCount = projectGrid.querySelectorAll('.card.archived').length;
+  var activeCount = projectGrid.querySelectorAll('.card').length - archivedCount;
+
+  function applyArchiveState(show) {
+    projectGrid.classList.toggle('show-archived', show);
+    projectCount.textContent = show ? (activeCount + archivedCount) + ' TOTAL' : activeCount + ' ACTIVE';
+  }
+
+  var savedShowArchived = false;
+  try { savedShowArchived = localStorage.getItem('onyxaxis-show-archived') === '1'; } catch (e) {}
+  archiveToggle.checked = savedShowArchived;
+  applyArchiveState(savedShowArchived);
+
+  archiveToggle.addEventListener('change', function () {
+    applyArchiveState(archiveToggle.checked);
+    try { localStorage.setItem('onyxaxis-show-archived', archiveToggle.checked ? '1' : '0'); } catch (e) {}
   });
 </script>
 
