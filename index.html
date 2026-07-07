@@ -73,7 +73,7 @@
   }
 
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
+  html, body { margin: 0; padding: 0; position: relative; }
   body {
     background: var(--bg);
     color: var(--text);
@@ -88,23 +88,13 @@
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 8px; }
 
-  /* ---------- header ---------- */
-  header.topbar {
-    position: sticky; top: 0; z-index: 50;
-    display: flex; align-items: center; gap: 14px;
-    padding: 0 24px; height: 56px;
-    background: var(--header-bg);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    border-bottom: 1px solid var(--border);
+  /* ---------- theme toggle ---------- */
+  .theme-toggle-pos {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 50;
   }
-  .brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 15px; text-decoration: none; }
-  .brand .dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex: none; }
-  .brand .dot::after {
-    content: ""; position: absolute; inset: -4px; border-radius: 50%;
-    border: 1px solid #22c55e; opacity: .6; animation: ping 2.2s cubic-bezier(0,0,.2,1) infinite;
-  }
-  @keyframes ping { 0% { transform: scale(1); opacity: .6; } 75%, 100% { transform: scale(2.2); opacity: 0; } }
-  .spacer { flex: 1; }
   .icon-btn {
     display: inline-flex; align-items: center; justify-content: center;
     width: 32px; height: 32px; border-radius: 50%;
@@ -126,7 +116,7 @@
   html[data-theme="light"] .theme-light-icon { display: block; }
 
   /* ---------- hero ---------- */
-  .hero { padding: 68px 0 52px; text-align: center; border-bottom: 1px solid var(--border); }
+  .hero { padding: 88px 0 52px; text-align: center; border-bottom: 1px solid var(--border); }
   .badge {
     display: inline-flex; align-items: center; gap: 6px;
     font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em;
@@ -225,9 +215,9 @@
   footer p { margin: 0; color: var(--text-faint); font-size: 12px; font-family: var(--font-mono); }
 
   @media (max-width: 640px) {
-    header.topbar { padding: 0 16px; }
+    .theme-toggle-pos { top: 16px; right: 16px; }
     .wrap { padding: 0 18px; }
-    .hero { padding: 48px 0 40px; }
+    .hero { padding: 68px 0 40px; }
     .hero h1 { font-size: 34px; }
     .grid { grid-template-columns: 1fr; }
     .card-sub, .card p, .model-row { margin-left: 0; }
@@ -237,14 +227,10 @@
 </head>
 <body>
 
-<header class="topbar">
-  <a class="brand" href="#top"><span class="dot"></span>OnyxAxis</a>
-  <div class="spacer"></div>
-  <button class="icon-btn" id="theme-toggle" title="切换深浅色主题" aria-label="切换主题">
-    <svg class="theme-dark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
-    <svg class="theme-light-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
-  </button>
-</header>
+<button class="icon-btn theme-toggle-pos" id="theme-toggle" title="切换深浅色主题" aria-label="切换主题">
+  <svg class="theme-dark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
+  <svg class="theme-light-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+</button>
 
 <section class="hero" id="top">
   <div class="wrap">
@@ -289,7 +275,7 @@
           <input type="checkbox" id="archiveToggle">
           <span class="switch-track"></span>
         </label>
-        <span class="count" id="projectCount">4 ACTIVE</span>
+        <span class="count" id="projectCount">5 ACTIVE</span>
       </div>
     </div>
 
@@ -346,6 +332,17 @@
           <span class="card-link">obsidian-openwrt.pages.dev ↗</span>
         </div>
         <p>一款简洁现代的 OpenWrt / LuCI 主题。</p>
+      </a>
+
+      <a class="card" href="https://translator-lab.pages.dev" target="_blank" rel="noopener">
+        <div class="card-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <span class="card-title">翻译传话筒</span>
+          <span class="card-link">translator-lab.pages.dev ↗</span>
+        </div>
+        <p>让 AI 把你的中文来回翻译很多次，看看意思会跑偏成什么样。</p>
       </a>
 
       <a class="card archived" href="https://github.com/OnyxAxisOwO/Veiled" target="_blank" rel="noopener">
