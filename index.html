@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="avatar.jpg">
+<link rel="stylesheet" href="fonts/index.css">
 <script>
 /* no-flash theme init — mirrors Obsidian's early-init pattern */
 (function () {
@@ -34,7 +35,7 @@
     --shadow: 0 10px 24px -14px rgba(0,0,0,0.18);
     --radius: 14px;
     --radius-sm: 9px;
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-serif: "Noto Serif SC Variable", serif;
     --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   }
 
@@ -77,7 +78,7 @@
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: var(--font-sans);
+    font-family: var(--font-serif);
     line-height: 1.6;
     transition: background-color .25s ease, color .25s ease;
   }
@@ -135,7 +136,7 @@
   .avatar img { width: 100%; height: 100%; object-fit: cover; }
   .avatar .fallback { display: none; font-weight: 700; font-size: 22px; color: var(--text-dim); }
 
-  .hero h1 { font-size: 46px; margin: 0 0 12px; font-weight: 700; letter-spacing: -0.02em; }
+  .hero h1 { font-size: 46px; margin: 0 0 12px; font-weight: 700; letter-spacing: 0; }
   .hero .tagline { color: var(--text-dim); font-size: 16px; max-width: 480px; margin: 0 auto 30px; }
 
   .cta-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
@@ -158,7 +159,7 @@
   .section-head .count { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px; }
 
   .archive-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
-  .archive-toggle .switch-label { font-family: var(--font-sans); font-size: 12.5px; color: var(--text-faint); }
+  .archive-toggle .switch-label { font-family: var(--font-serif); font-size: 12.5px; color: var(--text-faint); }
   .archive-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
   .archive-toggle .switch-track {
     position: relative; width: 34px; height: 19px; border-radius: 999px;
@@ -175,7 +176,7 @@
   .card.archived { display: none; }
   .grid.show-archived .card.archived { display: block; }
   .archived-badge {
-    font-family: var(--font-sans); font-size: 10.5px; color: var(--text-faint);
+    font-family: var(--font-serif); font-size: 10.5px; color: var(--text-faint);
     border: 1px solid var(--border); border-radius: 999px; padding: 2px 7px; white-space: nowrap;
   }
 
