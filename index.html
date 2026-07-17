@@ -73,7 +73,7 @@
   }
 
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; position: relative; }
+  html, body { margin: 0; padding: 0; position: relative; overflow-x: hidden; }
   body {
     background: var(--bg);
     color: var(--text);
@@ -196,7 +196,7 @@
   .card-icon svg { width: 17px; height: 17px; }
   .card.featured .card-icon { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
   .card-title { font-weight: 700; font-size: 15px; }
-  .card-link { margin-left: auto; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-faint); white-space: nowrap; }
+  .card-link { margin-left: auto; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; padding-left: 8px; }
   .card-sub { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin: -6px 0 8px 45px; }
   .card p { margin: 0 0 0 45px; color: var(--text-dim); font-size: 13.5px; line-height: 1.65; }
 
@@ -209,7 +209,7 @@
 
   /* ---------- footer ---------- */
   footer { padding: 32px 0 40px; text-align: center; }
-  footer .links { display: flex; gap: 16px; justify-content: center; margin-bottom: 10px; }
+  footer .links { display: flex; gap: 16px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
   footer a { color: var(--text-dim); text-decoration: none; font-size: 13.5px; font-weight: 500; }
   footer a:hover { color: var(--text); text-decoration: underline; }
   footer p { margin: 0; color: var(--text-faint); font-size: 12px; font-family: var(--font-mono); }
@@ -219,7 +219,7 @@
     .wrap { padding: 0 18px; }
     .hero { padding: 68px 0 40px; }
     .hero h1 { font-size: 34px; }
-    .grid { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: minmax(0, 1fr); }
     .card-sub, .card p, .model-row { margin-left: 0; }
     .card-head { margin-bottom: 10px; }
   }
@@ -281,13 +281,13 @@
 
     <div class="grid" id="projectGrid">
 
-      <a class="card featured" href="https://ai.onyxaxis.org" target="_blank" rel="noopener">
+      <a class="card featured" href="https://api-ai.onyxaxis.org" target="_blank" rel="noopener">
         <div class="card-head">
           <div class="card-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
           </div>
           <span class="card-title">OnyxAxis AI</span>
-          <span class="card-link">ai.onyxaxis.org ↗</span>
+          <span class="card-link">api-ai.onyxaxis.org ↗</span>
         </div>
         <div class="card-sub">Claude Opus 4.8 · GPT-5.5 · Gemini 3.1 Pro</div>
         <p>全球顶级大模型，一站集结，全部免费。</p>
