@@ -8,7 +8,8 @@
 <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="avatar.jpg">
-<link rel="stylesheet" href="fonts/index.css">
+<link rel="preconnect" href="https://registry.npmmirror.com" crossorigin>
+<link rel="stylesheet" href="https://registry.npmmirror.com/@fontsource-variable/noto-serif-sc/5.2.10/files/index.css">
 <script>
 /* no-flash theme init — mirrors Obsidian's early-init pattern */
 (function () {
@@ -136,7 +137,44 @@
   .avatar img { width: 100%; height: 100%; object-fit: cover; }
   .avatar .fallback { display: none; font-weight: 700; font-size: 22px; color: var(--text-dim); }
 
-  .hero h1 { font-size: 46px; margin: 0 0 12px; font-weight: 700; letter-spacing: 0; }
+  .hero h1 { 
+    font-size: 46px; 
+    margin: 0 0 12px; 
+    font-weight: 700; 
+    letter-spacing: 0; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 64px; /* Ensure space is allocated to prevent jumping on erase */
+  }
+  
+  /* Typewriter Styling */
+  .typewriter-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .typewriter-cursor {
+    display: inline-block;
+    width: 3px;
+    height: 1.1em;
+    background-color: var(--text);
+    margin-left: 6px;
+    border-radius: 2px;
+    transition: background-color 0.25s ease;
+  }
+  
+  .typewriter-cursor.blink {
+    animation: cursor-blink 0.9s step-end infinite;
+  }
+  
+  @keyframes cursor-blink {
+    from, to { opacity: 0; }
+    50% { opacity: 1; }
+  }
+
   .hero .tagline { color: var(--text-dim); font-size: 16px; max-width: 480px; margin: 0 auto 30px; }
 
   .cta-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
@@ -219,7 +257,7 @@
     .theme-toggle-pos { top: 16px; right: 16px; }
     .wrap { padding: 0 18px; }
     .hero { padding: 68px 0 40px; }
-    .hero h1 { font-size: 34px; }
+    .hero h1 { font-size: 34px; min-height: 52px; }
     .grid { grid-template-columns: minmax(0, 1fr); }
     .card-sub, .card p, .model-row { margin-left: 0; }
     .card-head { margin-bottom: 10px; }
@@ -246,7 +284,13 @@
       <div class="fallback">OA</div>
     </div>
 
-    <h1>OnyxAxis</h1>
+    <h1>
+      <span class="typewriter-container">
+        <span id="typewriter-text">OnyxAxis</span>
+        <span id="typewriter-cursor" class="typewriter-cursor blink"></span>
+      </span>
+    </h1>
+    
     <p class="tagline">探索极简界面、实用开源工具与自主实验 — 这里是我的项目入口与技术积累。</p>
 
     <div class="cta-row">
@@ -293,12 +337,12 @@
         <div class="card-sub">Claude Fable 5 · GPT-5.6 Sol · Grok 4.5</div>
         <p>全球顶级大模型，一站集结，全部免费。</p>
         <div class="model-row">
-          <img src="icon/claude.png" alt="">
-          <img src="icon/chatgpt.png" alt="">
-          <img src="icon/gemini.png" alt="">
-          <img src="icon/grok.png" alt="">
-          <img src="icon/deepseek.png" alt="">
-          <img src="icon/qwen.png" alt="">
+          <img src="icon/claude.png" alt="" onerror="this.style.display='none'">
+          <img src="icon/chatgpt.png" alt="" onerror="this.style.display='none'">
+          <img src="icon/gemini.png" alt="" onerror="this.style.display='none'">
+          <img src="icon/grok.png" alt="" onerror="this.style.display='none'">
+          <img src="icon/deepseek.png" alt="" onerror="this.style.display='none'">
+          <img src="icon/qwen.png" alt="" onerror="this.style.display='none'">
         </div>
       </a>
 
@@ -424,6 +468,59 @@
   archiveToggle.addEventListener('change', function () {
     applyArchiveState(archiveToggle.checked);
     try { localStorage.setItem('onyxaxis-show-archived', archiveToggle.checked ? '1' : '0'); } catch (e) {}
+  });
+
+  // Typewriter effect configuration
+  var typewriterText = document.getElementById('typewriter-text');
+  var typewriterCursor = document.getElementById('typewriter-cursor');
+  var phrases = ["OnyxAxis", "黑曜 neko"];
+  var currentPhraseIndex = 0;
+  var currentCharIndex = phrases[currentPhraseIndex].length; // Start with full initial text
+  var isDeleting = true;
+  var typingSpeed = 120;   // Speed when typing a character
+  var deletingSpeed = 60;  // Speed when deleting a character
+  var delayBetweenPhrases = 2200; // Pause at the end of fully typed phrase
+  var delayBeforeTyping = 400;    // Pause when phrase is completely deleted
+
+  function tickTypewriter() {
+    var currentPhrase = phrases[currentPhraseIndex];
+    
+    if (isDeleting) {
+      // Deleting letters
+      currentCharIndex--;
+      typewriterCursor.classList.remove('blink'); // Solid cursor when typing/deleting
+    } else {
+      // Adding letters
+      currentCharIndex++;
+      typewriterCursor.classList.remove('blink');
+    }
+
+    // Update HTML
+    typewriterText.textContent = currentPhrase.substring(0, currentCharIndex);
+
+    // Determine the next delay / phase transition
+    var nextTimeout = isDeleting ? deletingSpeed : typingSpeed;
+
+    if (!isDeleting && currentCharIndex === currentPhrase.length) {
+      // Fully typed: start flashing cursor and wait before deleting
+      isDeleting = true;
+      nextTimeout = delayBetweenPhrases;
+      typewriterCursor.classList.add('blink');
+    } else if (isDeleting && currentCharIndex === 0) {
+      // Fully deleted: switch to the next phrase and wait before typing
+      isDeleting = false;
+      currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+      nextTimeout = delayBeforeTyping;
+      typewriterCursor.classList.add('blink');
+    }
+
+    setTimeout(tickTypewriter, nextTimeout);
+  }
+
+  // Start the typewriter loop after initial page load
+  window.addEventListener('DOMContentLoaded', function() {
+    // Initial delay so users can read the original title first
+    setTimeout(tickTypewriter, 1800);
   });
 </script>
 
