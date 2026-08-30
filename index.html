@@ -319,7 +319,7 @@
       <h2>Projects</h2>
       <div class="head-right">
         <label class="archive-toggle">
-          <span class="switch-label">显示归档仓库</span>
+          <span class="switch-label">显示归档项目</span>
           <input type="checkbox" id="archiveToggle">
           <span class="switch-track"></span>
         </label>
@@ -328,26 +328,6 @@
     </div>
 
     <div class="grid" id="projectGrid">
-
-      <a class="card featured" href="https://api-ai.onyxaxis.org" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
-          </div>
-          <span class="card-title">OnyxAxis AI</span>
-          <span class="card-link">api-ai.onyxaxis.org ↗</span>
-        </div>
-        <div class="card-sub">Claude Fable 5 · GPT-5.6 Sol · Grok 4.5</div>
-        <p>全球顶级大模型，一站集结，全部免费。</p>
-        <div class="model-row">
-          <img src="icon/claude.png" alt="" onerror="this.style.display='none'">
-          <img src="icon/chatgpt.png" alt="" onerror="this.style.display='none'">
-          <img src="icon/gemini.png" alt="" onerror="this.style.display='none'">
-          <img src="icon/grok.png" alt="" onerror="this.style.display='none'">
-          <img src="icon/deepseek.png" alt="" onerror="this.style.display='none'">
-          <img src="icon/qwen.png" alt="" onerror="this.style.display='none'">
-        </div>
-      </a>
 
       <a class="card" href="https://datamosh-camera.pages.dev" target="_blank" rel="noopener">
         <div class="card-head">
@@ -391,6 +371,17 @@
           <span class="card-link">obsidian-openwrt.pages.dev ↗</span>
         </div>
         <p>一款简洁现代的 OpenWrt / LuCI 主题。</p>
+      </a>
+
+      <a class="card" href="https://github.com/OnyxAxisOwO/ObsidianArc" target="_blank" rel="noopener">
+        <div class="card-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"></path><path d="M4 8h16"></path><path d="M8 4v16"></path></svg>
+          </div>
+          <span class="card-title">ObsidianArc</span>
+          <span class="card-link">GitHub ↗</span>
+        </div>
+        <p>一个实验性开源项目，提供更顺手的体验增强与工作流工具。</p>
       </a>
 
       <a class="card" href="https://translator-lab.pages.dev" target="_blank" rel="noopener">
@@ -461,6 +452,27 @@
         <p>将沉浸式翻译 API 逆向转换为 OpenAI 格式。</p>
       </a>
 
+      <a class="card archived" href="https://api-ai.onyxaxis.org" target="_blank" rel="noopener">
+        <div class="card-head">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
+          </div>
+          <span class="card-title">OnyxAxis AI</span>
+          <span class="archived-badge">已归档</span>
+          <span class="card-link">api-ai.onyxaxis.org ↗</span>
+        </div>
+        <div class="card-sub">Claude Fable 5 · GPT-5.6 Sol · Grok 4.5</div>
+        <p>全球顶级大模型，一站集结，全部免费。</p>
+        <div class="model-row">
+          <img src="icon/claude.png" alt="" onerror="this.style.display='none'">
+          <img src="icon/chatgpt.png" alt="" onerror="this.style.display='none'">
+          <img src="icon/gemini.png" alt="" onerror="this.style.display='none'">
+          <img src="icon/grok.png" alt="" onerror="this.style.display='none'">
+          <img src="icon/deepseek.png" alt="" onerror="this.style.display='none'">
+          <img src="icon/qwen.png" alt="" onerror="this.style.display='none'">
+        </div>
+      </a>
+
     </div>
   </div>
 </section>
@@ -523,13 +535,13 @@
   // Typewriter effect configuration
   var typewriterText = document.getElementById('typewriter-text');
   var typewriterCursor = document.getElementById('typewriter-cursor');
-  var phrases = ["OnyxAxis", "黑曜 neko"];
+  var phrases = ["OnyxAxis", "黑曜猫"];
   var currentPhraseIndex = 0;
   var currentCharIndex = phrases[currentPhraseIndex].length; // Start with full initial text
   var isDeleting = true;
   var typingSpeed = 120;   // Speed when typing a character
   var deletingSpeed = 60;  // Speed when deleting a character
-  var delayBetweenPhrases = 2200; // Pause at the end of fully typed phrase
+  var delayBetweenPhrases = 3200; // Pause at the end of fully typed phrase
   var delayBeforeTyping = 400;    // Pause when phrase is completely deleted
 
   function tickTypewriter() {
