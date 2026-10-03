@@ -3,508 +3,484 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OnyxAxis</title>
+<title>OnyxAxis · 黑曜猫</title>
 <meta name="description" content="OnyxAxis 个人主页 — 极简界面、实用开源工具与自主实验的项目入口。">
-<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f8f8f9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1c1c1e" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="OnyxAxis · 黑曜猫">
+<meta property="og:description" content="极简界面、实用开源工具与自主实验的项目入口。">
+<meta property="og:image" content="avatar.jpg">
 <link rel="icon" href="avatar.jpg">
-<link rel="preconnect" href="https://registry.npmmirror.com" crossorigin>
-<link rel="stylesheet" href="https://registry.npmmirror.com/@fontsource-variable/noto-serif-sc/5.2.10/files/index.css">
+<link rel="apple-touch-icon" href="avatar.jpg">
 <script>
-/* no-flash theme init — mirrors Obsidian's early-init pattern */
+/* no-flash init: saved theme (otherwise follows the system) + js flag for reveal animations */
 (function () {
+  var r = document.documentElement;
+  r.classList.add('js');
   try {
     var t = localStorage.getItem('onyxaxis-theme');
-    if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t);
   } catch (e) {}
 })();
 </script>
 <style>
+  /* Palette mirrors Obsidian Arc's neutral zinc tokens (docs/.vitepress/theme/styles/vars.css). */
   :root {
     color-scheme: light dark;
-    --bg: #fafafa;
-    --bg-alt: #f2f2f3;
+    --bg: #f8f8f9;
+    --surface: #f4f4f5;
+    --surface-hi: #ededef;
+    --field: #e8e8eb;
+    --field-hover: #e0e0e4;
     --card: #ffffff;
-    --border: rgba(0,0,0,0.1);
-    --border-strong: rgba(0,0,0,0.18);
-    --text: #18181b;
-    --text-dim: #52525b;
-    --text-faint: #8a8a92;
-    --accent: #18181b;
-    --accent-text: #ffffff;
-    --header-bg: rgba(250,250,250,0.82);
-    --shadow: 0 10px 24px -14px rgba(0,0,0,0.18);
-    --radius: 14px;
-    --radius-sm: 9px;
-    --font-serif: "Noto Serif SC Variable", serif;
-    --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --text: #1d1d1d;
+    --dim: #5e5e5f;
+    --faint: #8c8c90;
+    --border: rgba(29,29,29,0.12);
+    --primary: #18181b;
+    --primary-text: #ffffff;
+    --primary-hover: #303033;
+    --badge-bg: rgba(24,24,27,0.10);
+    --shadow: 0 8px 24px rgba(28,27,31,0.14);
+    --live: #22c55e;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans", "Noto Sans SC", sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --ease: cubic-bezier(.16,1,.3,1);
   }
-
   @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #0a0a0a;
-      --bg-alt: #141414;
-      --card: #131313;
-      --border: rgba(255,255,255,0.12);
-      --border-strong: rgba(255,255,255,0.22);
-      --text: #f4f4f5;
-      --text-dim: #a1a1aa;
-      --text-faint: #71717a;
-      --accent: #ffffff;
-      --accent-text: #000000;
-      --header-bg: rgba(10,10,10,0.82);
-      --shadow: 0 10px 28px -12px rgba(0,0,0,0.6);
+    :root:not([data-theme="light"]) {
+      --bg: #1c1c1e; --surface: #242426; --surface-hi: #2e2e30; --field: #343437; --field-hover: #3e3e41; --card: #19191b;
+      --text: #ededef; --dim: #b0b0b3; --faint: #7d7d82; --border: rgba(237,237,239,0.12);
+      --primary: #ffffff; --primary-text: #000000; --primary-hover: #dfdfdf; --badge-bg: rgba(255,255,255,0.14);
+      --shadow: 0 8px 28px rgba(0,0,0,0.5);
     }
   }
-
-  html[data-theme="light"] {
-    --bg: #fafafa; --bg-alt: #f2f2f3; --card: #ffffff;
-    --border: rgba(0,0,0,0.1); --border-strong: rgba(0,0,0,0.18);
-    --text: #18181b; --text-dim: #52525b; --text-faint: #8a8a92;
-    --accent: #18181b; --accent-text: #ffffff;
-    --header-bg: rgba(250,250,250,0.82);
-    --shadow: 0 10px 24px -14px rgba(0,0,0,0.18);
-  }
   html[data-theme="dark"] {
-    --bg: #0a0a0a; --bg-alt: #141414; --card: #131313;
-    --border: rgba(255,255,255,0.12); --border-strong: rgba(255,255,255,0.22);
-    --text: #f4f4f5; --text-dim: #a1a1aa; --text-faint: #71717a;
-    --accent: #ffffff; --accent-text: #000000;
-    --header-bg: rgba(10,10,10,0.82);
-    --shadow: 0 10px 28px -12px rgba(0,0,0,0.6);
+    color-scheme: dark;
+    --bg: #1c1c1e; --surface: #242426; --surface-hi: #2e2e30; --field: #343437; --field-hover: #3e3e41; --card: #19191b;
+    --text: #ededef; --dim: #b0b0b3; --faint: #7d7d82; --border: rgba(237,237,239,0.12);
+    --primary: #ffffff; --primary-text: #000000; --primary-hover: #dfdfdf; --badge-bg: rgba(255,255,255,0.14); --shadow: 0 8px 28px rgba(0,0,0,0.5);
   }
+  html[data-theme="light"] { color-scheme: light; }
 
   * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; position: relative; overflow-x: hidden; }
+  html { scroll-behavior: smooth; scroll-padding-top: 24px; }
+  html, body { margin: 0; padding: 0; }
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-serif);
-    line-height: 1.6;
+    position: relative; min-height: 100vh; overflow-x: hidden;
+    background: var(--bg); color: var(--text);
+    font-family: var(--font-sans); line-height: 1.6; -webkit-font-smoothing: antialiased;
     transition: background-color .25s ease, color .25s ease;
   }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
-  a { color: inherit; }
-  code { font-family: var(--font-mono); }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--primary); color: var(--primary-text); }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; border: 2px solid var(--bg); }
 
-  ::-webkit-scrollbar { width: 8px; height: 8px; }
-  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 8px; }
+  /* soft neutral aurora — the primary colour at low alpha, like Arc's front page */
+  .aurora { position: absolute; inset: 0 0 auto 0; height: 760px; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(640px 360px at 78% 22%, color-mix(in srgb, var(--primary) 9%, transparent), transparent 70%),
+      radial-gradient(520px 300px at 8% 0%, color-mix(in srgb, var(--primary) 6%, transparent), transparent 70%); }
 
-  /* ---------- theme toggle ---------- */
-  .theme-toggle-pos {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    z-index: 50;
-  }
-  .icon-btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 32px; height: 32px; border-radius: 50%;
-    border: 1px solid var(--border); background: transparent; color: var(--text);
-    cursor: pointer; transition: border-color .15s, transform .15s;
-  }
-  .icon-btn:hover { border-color: var(--border-strong); transform: scale(1.05); }
-  .icon-btn svg { width: 15px; height: 15px; }
-  .theme-dark-icon { display: none; }
-  html[data-theme="dark"] .theme-dark-icon,
-  html:not([data-theme]) .theme-dark-icon { display: block; }
-  html[data-theme="dark"] .theme-light-icon,
-  html:not([data-theme]) .theme-light-icon { display: none; }
-  @media (prefers-color-scheme: light) {
-    html:not([data-theme]) .theme-dark-icon { display: none; }
-    html:not([data-theme]) .theme-light-icon { display: block; }
-  }
-  html[data-theme="light"] .theme-dark-icon { display: none; }
-  html[data-theme="light"] .theme-light-icon { display: block; }
+  .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  main, footer { position: relative; z-index: 1; }
+
+  /* ---------- theme toggle (floating; no top bar) ---------- */
+  .theme-fab { position: fixed; top: 20px; right: 24px; z-index: 60; }
+  .icon-btn { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 36px; height: 36px; border-radius: 50%;
+    border: 0; background: var(--surface-hi); color: var(--text); cursor: pointer; transition: background-color .15s; }
+  .icon-btn:hover { background: var(--field-hover); }
+  .icon-btn svg { width: 16px; height: 16px; }
+  .ic-moon { display: none; }
+  .is-dark .ic-sun { display: none; }
+  .is-dark .ic-moon { display: block; }
 
   /* ---------- hero ---------- */
-  .hero { padding: 88px 0 52px; text-align: center; border-bottom: 1px solid var(--border); }
-  .badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .04em;
-    color: var(--text-dim); border: 1px solid var(--border); border-radius: 999px;
-    padding: 4px 12px 4px 10px; margin-bottom: 22px;
-  }
-  .badge .dot2 { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
-
-  .avatar {
-    width: 84px; height: 84px; margin: 0 auto 22px; position: relative;
-    border-radius: 50%; overflow: hidden; border: 1px solid var(--border-strong);
-    background: var(--bg-alt); display: flex; align-items: center; justify-content: center;
-    transition: transform .3s cubic-bezier(.2,.8,.2,1);
-  }
-  .avatar:hover { transform: scale(1.04); }
-  .avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .avatar .fallback { display: none; font-weight: 700; font-size: 22px; color: var(--text-dim); }
-
-  .hero h1 { 
-    font-size: 46px; 
-    margin: 0 0 12px; 
-    font-weight: 700; 
-    letter-spacing: 0; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 64px; /* Ensure space is allocated to prevent jumping on erase */
-  }
-  
-  /* Typewriter Styling */
-  .typewriter-container {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  
-  .typewriter-cursor {
-    display: inline-block;
-    width: 3px;
-    height: 1.1em;
-    background-color: var(--text);
-    margin-left: 6px;
-    border-radius: 2px;
-    transition: background-color 0.25s ease;
-  }
-  
-  .typewriter-cursor.blink {
-    animation: cursor-blink 0.9s step-end infinite;
-  }
-  
-  @keyframes cursor-blink {
-    from, to { opacity: 0; }
-    50% { opacity: 1; }
-  }
-
-  .hero .tagline { color: var(--text-dim); font-size: 16px; max-width: 480px; margin: 0 auto 30px; }
-
-  .cta-row { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 7px;
-    padding: 10px 18px; border-radius: var(--radius-sm);
-    font-size: 14px; font-weight: 600; text-decoration: none;
-    border: 1px solid var(--border); transition: opacity .15s ease, transform .15s ease;
-  }
-  .btn:hover { opacity: .82; transform: translateY(-1px); }
+  .hero { padding: 104px 0 72px; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 64px; align-items: center; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 9px; margin: 0 0 24px; color: var(--dim); font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+  .eyebrow i { width: 6px; height: 6px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 3px color-mix(in srgb, var(--live) 22%, transparent); }
+  .hero h1 { margin: 0; font-size: clamp(48px, 7.4vw, 92px); font-weight: 650; line-height: 1.08; letter-spacing: -.055em; display: flex; align-items: center; min-height: 1.15em; white-space: nowrap; }
+  .cursor { display: inline-block; width: .075em; height: .8em; margin-left: .06em; background: var(--primary); border-radius: 2px; }
+  .cursor.blink { animation: blink .95s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .subtitle { margin: 20px 0 0; font-size: clamp(22px, 2.6vw, 30px); font-weight: 500; line-height: 1.5; letter-spacing: -.03em; }
+  .tagline { margin: 16px 0 0; max-width: 460px; color: var(--dim); font-size: 16px; line-height: 1.9; }
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 44px; padding: 10px 22px; border-radius: 999px;
+    background: var(--surface-hi); color: var(--text); font-size: 14px; font-weight: 500; transition: background-color .15s ease, transform .15s ease; }
   .btn svg { width: 15px; height: 15px; }
-  .btn-primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
-  .btn-outline { background: transparent; color: var(--text); }
+  .btn:hover { background: var(--field-hover); }
+  .btn-primary { background: var(--primary); color: var(--primary-text); }
+  .btn-primary:hover { background: var(--primary-hover); }
+
+  /* portrait — sits in a flat Arc-style panel; the avatar is the only colour on the page */
+  .portrait-panel { padding: 24px; border-radius: 18px; background: var(--surface); }
+  .portrait-head { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 13px; }
+  .portrait-head .badge { margin-left: auto; padding: 2px 9px; border-radius: 999px; background: var(--badge-bg); font-size: 12px; white-space: nowrap; }
+  .portrait { position: relative; aspect-ratio: 1; border-radius: 11px; overflow: hidden; background: var(--surface-hi); }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s var(--ease); }
+  .portrait:hover img { transform: scale(1.04); }
+  .fallback-avatar { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; font-size: 64px; font-weight: 650; color: var(--dim); }
+  .portrait-foot { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; font-size: 12px; color: var(--dim); }
+  .portrait-foot span:first-child { font-family: var(--font-mono); }
 
   /* ---------- projects ---------- */
-  .projects { padding: 56px 0; }
-  .section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
-  .section-head h2 { margin: 0; font-size: 21px; font-weight: 700; }
-  .section-head .head-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
-  .section-head .count { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); border: 1px solid var(--border); border-radius: 999px; padding: 3px 10px; }
+  .projects { padding: 40px 0 40px; }
+  .sec-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+  .sec-head h2 { margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -.035em; line-height: 1.4; display: flex; align-items: baseline; gap: 12px; }
+  .sec-head h2 small { font-size: 14px; font-weight: 500; color: var(--dim); letter-spacing: 0; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { appearance: none; border: 0; cursor: pointer; font: inherit; font-size: 13px; font-weight: 500; display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 16px; border-radius: 999px; color: var(--dim); background: var(--surface-hi); transition: background-color .15s, color .15s; }
+  .chip small { font-size: 11px; opacity: .65; }
+  .chip:hover { background: var(--field-hover); color: var(--text); }
+  .chip.on { background: var(--primary); color: var(--primary-text); }
+  .chip:focus-visible, .btn:focus-visible, .icon-btn:focus-visible, .card:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
 
-  .archive-toggle { display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; }
-  .archive-toggle .switch-label { font-family: var(--font-serif); font-size: 12.5px; color: var(--text-faint); }
-  .archive-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
-  .archive-toggle .switch-track {
-    position: relative; width: 34px; height: 19px; border-radius: 999px;
-    background: var(--bg-alt); border: 1px solid var(--border); transition: background .18s ease, border-color .18s ease;
-  }
-  .archive-toggle .switch-track::after {
-    content: ""; position: absolute; top: 1px; left: 1px; width: 15px; height: 15px; border-radius: 50%;
-    background: var(--text-faint); transition: transform .18s ease, background .18s ease;
-  }
-  .archive-toggle input:checked + .switch-track { background: var(--accent); border-color: var(--accent); }
-  .archive-toggle input:checked + .switch-track::after { transform: translateX(15px); background: var(--accent-text); }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; grid-auto-flow: dense; }
+  .card { --mx: 50%; --my: 50%; position: relative; display: flex; flex-direction: column; overflow: hidden; isolation: isolate;
+    padding: 24px; border-radius: 18px; background: var(--surface); transition: background-color .15s ease, transform .2s var(--ease); }
+  .card::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .25s;
+    background: radial-gradient(360px circle at var(--mx) var(--my), color-mix(in srgb, var(--primary) 7%, transparent), transparent 60%); }
+  .card:hover { background: var(--surface-hi); transform: translateY(-2px); }
+  .card:hover::before { opacity: 1; }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
-  .card.archived { display: none; }
-  .grid.show-archived .card.archived { display: block; }
-  .archived-badge {
-    font-family: var(--font-serif); font-size: 10.5px; color: var(--text-faint);
-    border: 1px solid var(--border); border-radius: 999px; padding: 2px 7px; white-space: nowrap;
-  }
+  .card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 24px; }
+  .card-icon { flex: none; width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; background: var(--bg); color: var(--text);
+    transition: background-color .2s, color .2s; }
+  .card-icon svg { width: 18px; height: 18px; }
+  .card:hover .card-icon { background: var(--primary); color: var(--primary-text); }
+  .tag { padding: 2px 9px; border-radius: 999px; background: var(--badge-bg); font-size: 12px; white-space: nowrap; }
+  .go { margin-left: auto; color: var(--faint); transition: transform .2s var(--ease), color .2s; display: grid; place-items: center; }
+  .go svg { width: 16px; height: 16px; }
+  .card:hover .go { color: var(--text); transform: translate(2px, -2px); }
+  .card h3 { margin: 0 0 10px; font-size: 18px; font-weight: 600; letter-spacing: -.02em; line-height: 1.35; }
+  .card p { margin: 0; color: var(--dim); font-size: 14px; line-height: 1.8; }
+  .host { margin-top: auto; padding-top: 22px; font-family: var(--font-mono); font-size: 12px; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-  .card {
-    display: block; text-decoration: none; color: inherit;
-    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 20px 22px;
-    transition: transform .18s cubic-bezier(.2,.8,.2,1), border-color .18s ease, box-shadow .18s ease;
-  }
-  .card:hover { transform: translateY(-3px); border-color: var(--border-strong); box-shadow: var(--shadow); }
-
-  .card-head { display: flex; align-items: center; gap: 11px; margin-bottom: 12px; }
-  .card-icon {
-    flex: none; width: 34px; height: 34px; border-radius: 9px;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--bg-alt); border: 1px solid var(--border); color: var(--text-dim);
-  }
-  .card-icon svg { width: 17px; height: 17px; }
-  .card.featured .card-icon { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
-  .card-title { font-weight: 700; font-size: 15px; }
-  .card-link { margin-left: auto; font-family: var(--font-mono); font-size: 10.5px; color: var(--text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; padding-left: 8px; }
-  .card-sub { font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); margin: -6px 0 8px 45px; }
-  .card p { margin: 0 0 0 45px; color: var(--text-dim); font-size: 13.5px; line-height: 1.65; }
-
-  .model-row { display: flex; margin: 12px 0 0 45px; }
-  .model-row img {
-    width: 20px; height: 20px; border-radius: 6px; object-fit: cover;
-    border: 2px solid var(--card); margin-left: -6px; background: var(--bg-alt);
-  }
+  .card.wide { grid-column: span 2; }
+  .card.feat { grid-column: span 2; grid-row: span 2; padding: 32px; }
+  .card.feat::before { opacity: 1; background: radial-gradient(520px circle at 100% 0%, color-mix(in srgb, var(--primary) 8%, transparent), transparent 65%); }
+  .card.feat:hover::before { background: radial-gradient(520px circle at var(--mx) var(--my), color-mix(in srgb, var(--primary) 9%, transparent), transparent 65%); }
+  .card.feat h3 { font-size: clamp(30px, 3.6vw, 44px); font-weight: 650; letter-spacing: -.05em; margin-bottom: 8px; }
+  .card.feat .models-line { font-family: var(--font-mono); font-size: 12.5px; color: var(--dim); margin-bottom: 18px; }
+  .card.feat p { font-size: 16px; max-width: 520px; line-height: 1.9; }
+  .card.feat .card-icon { width: 44px; height: 44px; background: var(--primary); color: var(--primary-text); }
+  .model-row { display: flex; align-items: center; margin-top: 28px; }
+  .model-row img { width: 34px; height: 34px; border-radius: 10px; object-fit: cover; margin-left: -8px; border: 2px solid var(--surface); background: var(--surface-hi); transition: transform .25s var(--ease), border-color .15s; }
+  .card.feat:hover .model-row img { border-color: var(--surface-hi); }
   .model-row img:first-child { margin-left: 0; }
+  .card.feat:hover .model-row img { transform: translateY(-3px); }
+  .model-row img:nth-child(2) { transition-delay: .03s; } .model-row img:nth-child(3) { transition-delay: .06s; }
+  .model-row img:nth-child(4) { transition-delay: .09s; } .model-row img:nth-child(5) { transition-delay: .12s; } .model-row img:nth-child(6) { transition-delay: .15s; }
+  .model-row .more { margin-left: 12px; font-size: 12px; color: var(--faint); }
+
+  .card.is-archived { opacity: .7; }
+  .card.is-hidden { display: none; }
+  .card.pop { animation: pop .4s var(--ease) both; }
+  @keyframes pop { from { opacity: 0; transform: translateY(12px); } }
 
   /* ---------- footer ---------- */
-  footer { padding: 32px 0 40px; text-align: center; }
-  footer .links { display: flex; gap: 16px; justify-content: center; margin-bottom: 10px; flex-wrap: wrap; }
-  footer .token-stats { display: flex; justify-content: center; margin-bottom: 14px; }
-  footer .token-stats img { display: block; max-width: 100%; height: auto; border-radius: 6px; opacity: .9; transition: opacity .15s ease; }
-  footer .token-stats a:hover img { opacity: 1; }
-  footer a { color: var(--text-dim); text-decoration: none; font-size: 13.5px; font-weight: 500; }
-  footer a:hover { color: var(--text); text-decoration: underline; }
-  footer p { margin: 0; color: var(--text-faint); font-size: 12px; font-family: var(--font-mono); }
+  footer { padding: 64px 0 0; overflow: hidden; }
+  .foot-card { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; padding: 28px 32px; border-radius: 18px; background: var(--surface); }
+  .foot-card h4 { margin: 0 0 4px; font-size: 18px; font-weight: 600; letter-spacing: -.02em; }
+  .foot-card p { margin: 0; font-size: 14px; color: var(--dim); }
+  .token-stats { min-height: 28px; }
+  .token-stats img { display: block; max-width: 100%; height: auto; border-radius: 8px; }
+  .foot-links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 28px; justify-content: space-between; align-items: center; }
+  .foot-links nav { display: flex; flex-wrap: wrap; gap: 2px; }
+  .foot-links a { font-size: 13px; color: var(--dim); padding: 6px 12px; border-radius: 999px; transition: color .15s, background-color .15s; }
+  .foot-links a:hover { color: var(--text); background: var(--surface-hi); }
+  .foot-links small { font-size: 12px; color: var(--faint); }
+  .wordmark { margin: 28px 0 0; text-align: center; font-weight: 650; letter-spacing: -.06em; line-height: .78; white-space: nowrap; user-select: none;
+    font-size: clamp(64px, 17.5vw, 224px); color: var(--surface); transform: translateY(14%); }
 
-  @media (max-width: 640px) {
-    .theme-toggle-pos { top: 16px; right: 16px; }
-    .wrap { padding: 0 18px; }
-    .hero { padding: 68px 0 40px; }
-    .hero h1 { font-size: 34px; min-height: 52px; }
-    .grid { grid-template-columns: minmax(0, 1fr); }
-    .card-sub, .card p, .model-row { margin-left: 0; }
-    .card-head { margin-bottom: 10px; }
+  /* ---------- reveal ---------- */
+  .js .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s var(--ease), transform .6s var(--ease); transition-delay: var(--d, 0s); }
+  .js .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 959px) {
+    .hero-grid { gap: 36px; }
+    .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card.feat { grid-column: span 2; grid-row: auto; }
   }
+  @media (max-width: 760px) {
+    .wrap { padding: 0 22px; }
+    .theme-fab { top: 14px; right: 16px; }
+    .hero { padding: 72px 0 48px; }
+    .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+    .portrait-panel { order: -1; padding: 18px; }
+    .portrait-panel .portrait { max-width: 300px; margin: 0 auto; }
+    .hero h1 { font-size: clamp(44px, 14vw, 68px); }
+    .foot-card { grid-template-columns: minmax(0, 1fr); padding: 22px; }
+  }
+  @media (max-width: 560px) {
+    .grid { grid-template-columns: minmax(0, 1fr); }
+    .card.feat, .card.wide { grid-column: auto; }
+    .card.feat { padding: 26px; }
+    .foot-links { flex-direction: column; align-items: flex-start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    .js .reveal { opacity: 1; transform: none; }
+  }
+  .tagline b { color: var(--text); font-weight: 500; }
 </style>
 </head>
 <body>
 
-<button class="icon-btn theme-toggle-pos" id="theme-toggle" title="切换深浅色主题" aria-label="切换主题">
-  <svg class="theme-dark-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>
-  <svg class="theme-light-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
-</button>
+<div class="aurora" aria-hidden="true"></div>
 
-<section class="hero" id="top">
-  <div class="wrap">
-    <div class="badge"><span class="dot2"></span>PERSONAL SITE</div>
+<button class="icon-btn theme-fab" id="theme-toggle" title="切换深浅色主题" aria-label="切换主题">
+      <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+      <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+    </button>
 
-    <div class="avatar">
-      <img
-        src="https://onyxaxis.org/avatar.jpg"
-        alt="OnyxAxis"
-        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-      />
-      <div class="fallback">OA</div>
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow reveal"><i></i>Personal Site</div>
+        <h1 class="reveal" style="--d:.06s" aria-label="OnyxAxis">
+          <span id="tw">OnyxAxis</span><span class="cursor blink" id="cursor"></span>
+        </h1>
+        <p class="tagline reveal" style="--d:.12s">探索<b>极简界面</b>、<b>实用开源工具</b>与<b>自主实验</b> — 这里是我的项目入口与技术积累。</p>
+        <div class="cta reveal" style="--d:.18s">
+          <a class="btn btn-primary" href="#projects">
+            查看项目
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"></path></svg>
+          </a>
+          <a class="btn" href="http://blog.onyxaxis.org" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            Blog
+          </a>
+          <a class="btn" href="https://github.com/OnyxAxisOwO" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+            GitHub
+          </a>
+          <a class="btn" href="https://t.me/onyxaxis" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            Telegram
+          </a>
+          <a class="btn" href="https://monitor.onyxaxis.org" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            Monitor
+          </a>
+        </div>
+      </div>
+
+      <aside class="portrait-panel reveal" style="--d:.1s">
+        <div class="portrait-head"><strong>OnyxAxis</strong><span class="badge">黑曜猫</span></div>
+        <div class="portrait">
+          <img src="avatar.jpg" alt="OnyxAxis 黑曜猫的头像" width="640" height="640" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <div class="fallback-avatar">OA</div>
+        </div>
+        <div class="portrait-foot"><span>@OnyxAxisOwO</span><span>极简 · 开源 · 实验</span></div>
+      </aside>
     </div>
+  </section>
 
-    <h1>
-      <span class="typewriter-container">
-        <span id="typewriter-text">OnyxAxis</span>
-        <span id="typewriter-cursor" class="typewriter-cursor blink"></span>
-      </span>
-    </h1>
-    
-    <p class="tagline">探索极简界面、实用开源工具与自主实验 — 这里是我的项目入口与技术积累。</p>
+  <section class="projects" id="projects">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div>
+          <h2>Projects <small id="projectCount">11</small></h2>
+        </div>
+        <div class="filters" id="filters" role="tablist" aria-label="项目筛选">
+          <button class="chip on" data-filter="all" role="tab" aria-selected="true">全部 <small data-count="all"></small></button>
+          <button class="chip" data-filter="ai" role="tab" aria-selected="false">AI <small data-count="ai"></small></button>
+          <button class="chip" data-filter="app" role="tab" aria-selected="false">应用 <small data-count="app"></small></button>
+          <button class="chip" data-filter="tool" role="tab" aria-selected="false">工具 <small data-count="tool"></small></button>
+          <button class="chip" data-filter="archived" role="tab" aria-selected="false">已归档 <small data-count="archived"></small></button>
+        </div>
+      </div>
 
-    <div class="cta-row">
-      <a class="btn btn-primary" href="http://blog.onyxaxis.org" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-        Blog
-      </a>
-      <a class="btn btn-outline" href="https://github.com/OnyxAxisOwO" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-        GitHub
-      </a>
-      <a class="btn btn-outline" href="https://t.me/onyxaxis" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-        Telegram
-      </a>
-      <a class="btn btn-outline" href="https://monitor.onyxaxis.org" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
-        Monitor
-      </a>
-    </div>
-  </div>
-</section>
+      <div class="grid" id="projectGrid">
 
-<section class="projects">
-  <div class="wrap">
-    <div class="section-head">
-      <h2>Projects</h2>
-      <div class="head-right">
-        <label class="archive-toggle">
-          <span class="switch-label">显示归档项目</span>
-          <input type="checkbox" id="archiveToggle">
-          <span class="switch-track"></span>
-        </label>
-        <span class="count" id="projectCount">11 ACTIVE</span>
+        <a class="card feat reveal" data-cat="ai" href="https://ai.onyxaxis.org" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg></div>
+            <span class="tag">Featured · AI</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>Axis AI</h3>
+          <div class="models-line">Claude Opus 5 · GPT-5.6 Sol · Gemini 3.8 Flash</div>
+          <p>基于 Obsidian Arc 架构打造，集结全球顶级大模型，提供极速流式交互体验。</p>
+          <div class="model-row">
+            <img src="icon/claude.png" alt="" onerror="this.style.display='none'">
+            <img src="icon/chatgpt.png" alt="" onerror="this.style.display='none'">
+            <img src="icon/gemini.png" alt="" onerror="this.style.display='none'">
+            <img src="icon/grok.png" alt="" onerror="this.style.display='none'">
+            <img src="icon/deepseek.png" alt="" onerror="this.style.display='none'">
+            <img src="icon/qwen.png" alt="" onerror="this.style.display='none'">
+            <span class="more">+ more</span>
+          </div>
+          <div class="host">ai.onyxaxis.org</div>
+        </a>
+
+        <a class="card reveal" data-cat="app" href="https://chat.onyxaxis.org" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2z"></path><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path></svg></div>
+            <span class="tag">应用</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>Obsidian Chat</h3>
+          <p>基于 Go 与 Vue 的极简在线聊天。桌面端三栏展开布局，黑白灰极简美学，支持私聊群聊、多端实时同步与深色模式。</p>
+          <div class="host">chat.onyxaxis.org</div>
+        </a>
+
+        <a class="card reveal" data-cat="app" href="https://datamosh-camera.pages.dev" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 8h2.5a2.5 2.5 0 0 1 2.5 2.5v7a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5v-7A2.5 2.5 0 0 1 6.5 8H9l1.2-2h3.6L15 8Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></div>
+            <span class="tag">应用</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>Datamosh Camera</h3>
+          <p>纯前端故障艺术相机，用 WebCodecs 反复解码差分帧做出经典 datamosh 拖影效果，仿手机相机 UI，拍照录像都支持。</p>
+          <div class="host">datamosh-camera.pages.dev</div>
+        </a>
+
+        <a class="card reveal" data-cat="tool" href="https://bouncer-webui.pages.dev" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg></div>
+            <span class="tag">工具</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>Bouncer</h3>
+          <p>Open WebUI 流控、公告、权限、商业化，一站式开源工具。</p>
+          <div class="host">bouncer-webui.pages.dev</div>
+        </a>
+
+        <a class="card reveal" data-cat="tool" href="https://PageDye.pages.dev" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.3441 19.4855 5.22857 20.3019 4.85857 20.8586C4.42857 21.5019 3.5 21.5 3 22H12Z"></path><circle cx="7.5" cy="10.5" r="1.5"></circle><circle cx="11.5" cy="7.5" r="1.5"></circle><circle cx="16.5" cy="9.5" r="1.5"></circle><circle cx="15.5" cy="14.5" r="1.5"></circle></svg></div>
+            <span class="tag">工具</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>PageDye</h3>
+          <p>一键换肤所有网页，兼容大部分网站，支持更换网页壁纸。</p>
+          <div class="host">PageDye.pages.dev</div>
+        </a>
+
+        <a class="card reveal" data-cat="tool" href="https://obsidian-openwrt.pages.dev/" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg></div>
+            <span class="tag">工具</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>Obsidian Theme</h3>
+          <p>一款简洁现代的 OpenWrt / LuCI 主题。</p>
+          <div class="host">obsidian-openwrt.pages.dev</div>
+        </a>
+
+        <a class="card wide reveal" data-cat="ai" href="https://github.com/OnyxAxisOwO/ObsidianArc" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"></path><path d="M4 8h16"></path><path d="M8 4v16"></path></svg></div>
+            <span class="tag">AI</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>Obsidian Arc</h3>
+          <p>专为 Axis AI 打造的高可用自托管 AI 对话与统一网关。单 Go 二进制内嵌前端，支持全渠道动态路由、实时思维链流式与精准用量账本。</p>
+          <div class="host">github.com/OnyxAxisOwO/ObsidianArc</div>
+        </a>
+
+        <a class="card reveal" data-cat="ai" href="https://translator-lab.pages.dev" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></div>
+            <span class="tag">AI</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>翻译传话筒</h3>
+          <p>让 AI 把你的中文来回翻译很多次，看看意思会跑偏成什么样。</p>
+          <div class="host">translator-lab.pages.dev</div>
+        </a>
+
+        <a class="card reveal" data-cat="tool" href="https://github.com/OnyxAxisOwO/ChatGPTBrowserEnhancer" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M10 4v4"></path><path d="M2 8h20"></path><path d="M6 12h.01"></path><path d="M6 16h.01"></path></svg></div>
+            <span class="tag">工具</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>ChatGPTBrowserEnhancer</h3>
+          <p>Windows GUI 管理器，为 ChatGPT 桌面浏览器加载自定义 Chromium 扩展。</p>
+          <div class="host">github.com/OnyxAxisOwO/ChatGPTBrowserEnhancer</div>
+        </a>
+
+        <a class="card reveal" data-cat="ai" href="https://github.com/OnyxAxisOwO/AutoBrowser" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"></path><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path></svg></div>
+            <span class="tag">AI</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>AutoBrowser</h3>
+          <p>把 AI 接到真实 Chrome/Edge 的 MCP 桥接，实时操控标签页、DOM、CDP、console/网络抓取。</p>
+          <div class="host">github.com/OnyxAxisOwO/AutoBrowser</div>
+        </a>
+
+        <a class="card reveal" data-cat="tool" href="https://github.com/OnyxAxisOwO/claude-ai-zh-cn" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14M5 8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"></path></svg></div>
+            <span class="tag">工具</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>claude-ai-zh-cn</h3>
+          <p>Claude 官网中文本地化浏览器扩展。</p>
+          <div class="host">github.com/OnyxAxisOwO/claude-ai-zh-cn</div>
+        </a>
+
+        <a class="card is-archived reveal" data-cat="archived" href="https://github.com/OnyxAxisOwO/Veiled" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg></div>
+            <span class="tag arch">已归档</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>Veiled</h3>
+          <p>隐身 AI 助手客户端，从安装到运行全程伪装为 Windows 系统显示驱动辅助工具。</p>
+          <div class="host">github.com/OnyxAxisOwO/Veiled</div>
+        </a>
+
+        <a class="card is-archived reveal" data-cat="archived" href="https://github.com/OnyxAxisOwO/ImmersiveProxy" target="_blank" rel="noopener">
+          <div class="card-top">
+            <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></div>
+            <span class="tag arch">已归档</span>
+            <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"></path></svg></span>
+          </div>
+          <h3>ImmersiveProxy</h3>
+          <p>将沉浸式翻译 API 逆向转换为 OpenAI 格式。</p>
+          <div class="host">github.com/OnyxAxisOwO/ImmersiveProxy</div>
+        </a>
+
       </div>
     </div>
-
-    <div class="grid" id="projectGrid">
-
-      <a class="card featured" href="https://ai.onyxaxis.org" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path></svg>
-          </div>
-          <span class="card-title">Axis AI</span>
-          <span class="card-link">ai.onyxaxis.org ↗</span>
-        </div>
-        <div class="card-sub">Claude Opus 5 · GPT-5.6 Sol · Gemini 3.8 Flash</div>
-        <p>基于 Obsidian Arc 架构打造，集结全球顶级大模型，提供极速流式交互体验。</p>
-        <div class="model-row">
-          <img src="icon/claude.png" alt="" onerror="this.style.display='none'">
-          <img src="icon/chatgpt.png" alt="" onerror="this.style.display='none'">
-          <img src="icon/gemini.png" alt="" onerror="this.style.display='none'">
-          <img src="icon/grok.png" alt="" onerror="this.style.display='none'">
-          <img src="icon/deepseek.png" alt="" onerror="this.style.display='none'">
-          <img src="icon/qwen.png" alt="" onerror="this.style.display='none'">
-        </div>
-      </a>
-
-      <a class="card" href="https://chat.onyxaxis.org" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2z"></path><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path></svg>
-          </div>
-          <span class="card-title">Obsidian Chat</span>
-          <span class="card-link">chat.onyxaxis.org ↗</span>
-        </div>
-        <p>基于 Go 与 Vue 的极简在线聊天。桌面端三栏展开布局，黑白灰极简美学，支持私聊群聊、多端实时同步与深色模式。</p>
-      </a>
-
-      <a class="card" href="https://datamosh-camera.pages.dev" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 8h2.5a2.5 2.5 0 0 1 2.5 2.5v7a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 17.5v-7A2.5 2.5 0 0 1 6.5 8H9l1.2-2h3.6L15 8Z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
-          </div>
-          <span class="card-title">Datamosh Camera</span>
-          <span class="card-link">datamosh-camera.pages.dev ↗</span>
-        </div>
-        <p>纯前端故障艺术相机，用 WebCodecs 反复解码差分帧做出经典 datamosh 拖影效果，仿手机相机 UI，拍照录像都支持。</p>
-      </a>
-
-      <a class="card" href="https://bouncer-webui.pages.dev" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
-          </div>
-          <span class="card-title">Bouncer</span>
-          <span class="card-link">bouncer-webui.pages.dev ↗</span>
-        </div>
-        <p>Open WebUI 流控、公告、权限、商业化，一站式开源工具。</p>
-      </a>
-
-      <a class="card" href="https://PageDye.pages.dev" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.7255 3.09032 17.1962 4.85857 19C5.3441 19.4855 5.22857 20.3019 4.85857 20.8586C4.42857 21.5019 3.5 21.5 3 22H12Z"></path><circle cx="7.5" cy="10.5" r="1.5"></circle><circle cx="11.5" cy="7.5" r="1.5"></circle><circle cx="16.5" cy="9.5" r="1.5"></circle><circle cx="15.5" cy="14.5" r="1.5"></circle></svg>
-          </div>
-          <span class="card-title">PageDye</span>
-          <span class="card-link">PageDye.pages.dev ↗</span>
-        </div>
-        <p>一键换肤所有网页，兼容大部分网站，支持更换网页壁纸。</p>
-      </a>
-
-      <a class="card" href="https://obsidian-openwrt.pages.dev/" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-          </div>
-          <span class="card-title">Obsidian Theme</span>
-          <span class="card-link">obsidian-openwrt.pages.dev ↗</span>
-        </div>
-        <p>一款简洁现代的 OpenWrt / LuCI 主题。</p>
-      </a>
-
-      <a class="card" href="https://github.com/OnyxAxisOwO/ObsidianArc" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"></path><path d="M4 8h16"></path><path d="M8 4v16"></path></svg>
-          </div>
-          <span class="card-title">Obsidian Arc</span>
-          <span class="card-link">GitHub ↗</span>
-        </div>
-        <p>专为 Axis AI 打造的高可用自托管 AI 对话与统一网关。单 Go 二进制内嵌前端，支持全渠道动态路由、实时思维链流式与精准用量账本。</p>
-      </a>
-
-      <a class="card" href="https://translator-lab.pages.dev" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-          </div>
-          <span class="card-title">翻译传话筒</span>
-          <span class="card-link">translator-lab.pages.dev ↗</span>
-        </div>
-        <p>让 AI 把你的中文来回翻译很多次，看看意思会跑偏成什么样。</p>
-      </a>
-
-      <a class="card" href="https://github.com/OnyxAxisOwO/ChatGPTBrowserEnhancer" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M10 4v4"></path><path d="M2 8h20"></path><path d="M6 12h.01"></path><path d="M6 16h.01"></path></svg>
-          </div>
-          <span class="card-title">ChatGPTBrowserEnhancer</span>
-          <span class="card-link">GitHub ↗</span>
-        </div>
-        <p>Windows GUI 管理器，为 ChatGPT 桌面浏览器加载自定义 Chromium 扩展。</p>
-      </a>
-
-      <a class="card" href="https://github.com/OnyxAxisOwO/AutoBrowser" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"></path><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path></svg>
-          </div>
-          <span class="card-title">AutoBrowser</span>
-          <span class="card-link">GitHub ↗</span>
-        </div>
-        <p>把 AI 接到真实 Chrome/Edge 的 MCP 桥接，实时操控标签页、DOM、CDP、console/网络抓取。</p>
-      </a>
-
-      <a class="card" href="https://github.com/OnyxAxisOwO/claude-ai-zh-cn" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14M5 8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"></path></svg>
-          </div>
-          <span class="card-title">claude-ai-zh-cn</span>
-          <span class="card-link">GitHub ↗</span>
-        </div>
-        <p>Claude 官网中文本地化浏览器扩展。</p>
-      </a>
-
-      <a class="card archived" href="https://github.com/OnyxAxisOwO/Veiled" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path><path d="M6.61 6.61A13.52 13.52 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path><line x1="2" y1="2" x2="22" y2="22"></line></svg>
-          </div>
-          <span class="card-title">Veiled</span>
-          <span class="archived-badge">已归档</span>
-          <span class="card-link">GitHub ↗</span>
-        </div>
-        <p>隐身 AI 助手客户端，从安装到运行全程伪装为 Windows 系统显示驱动辅助工具。</p>
-      </a>
-
-      <a class="card archived" href="https://github.com/OnyxAxisOwO/ImmersiveProxy" target="_blank" rel="noopener">
-        <div class="card-head">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg>
-          </div>
-          <span class="card-title">ImmersiveProxy</span>
-          <span class="archived-badge">已归档</span>
-          <span class="card-link">GitHub ↗</span>
-        </div>
-        <p>将沉浸式翻译 API 逆向转换为 OpenAI 格式。</p>
-      </a>
-
-
-    </div>
-  </div>
-</section>
+  </section>
+</main>
 
 <footer>
   <div class="wrap">
-    <div class="links">
-      <a href="http://blog.onyxaxis.org" target="_blank" rel="noopener">Blog</a>
-      <a href="https://github.com/OnyxAxisOwO" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://t.me/onyxaxis" target="_blank" rel="noopener">Telegram</a>
-      <a href="https://monitor.onyxaxis.org" target="_blank" rel="noopener">Monitor</a>
+    <div class="foot-card reveal">
+      <div>
+        <h4>Token 用量</h4>
+        <p>日常和 AI 协作留下的足迹，数据来自 tokens.ci。</p>
+      </div>
+      <div class="token-stats">
+        <a href="https://tokens.ci/u/OnyxAxisOwO" target="_blank" rel="noopener"><img alt="Tokens Stats for @OnyxAxisOwO" src="https://tokens.ci/api/embed/OnyxAxisOwO/svg?tokens=compact&cost=compact" /></a>
+      </div>
     </div>
-    <div class="token-stats">
-      <a href="https://tokens.ci/u/OnyxAxisOwO" target="_blank" rel="noopener"><img alt="Tokens Stats for @OnyxAxisOwO" src="https://tokens.ci/api/embed/OnyxAxisOwO/svg?tokens=compact&cost=compact" /></a>
+    <div class="foot-links">
+      <nav aria-label="页脚链接">
+        <a href="http://blog.onyxaxis.org" target="_blank" rel="noopener">Blog</a>
+        <a href="https://github.com/OnyxAxisOwO" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://t.me/onyxaxis" target="_blank" rel="noopener">Telegram</a>
+        <a href="https://monitor.onyxaxis.org" target="_blank" rel="noopener">Monitor</a>
+      </nav>
+      <small>© 2026 ONYXAXIS</small>
     </div>
-    <p>© 2026 ONYXAXIS</p>
   </div>
+  <div class="wordmark" aria-hidden="true">ONYXAXIS</div>
 </footer>
 
 <script type="text/javascript">
@@ -516,90 +492,114 @@
 </script>
 
 <script>
-  var themeToggle = document.getElementById('theme-toggle');
-  themeToggle.addEventListener('click', function () {
-    var root = document.documentElement;
-    var current = root.getAttribute('data-theme');
-    var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var isDark = current ? current === 'dark' : systemDark;
-    var next = isDark ? 'light' : 'dark';
+(function () {
+  var root = document.documentElement;
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---- theme ---- */
+  var themeBtn = document.getElementById('theme-toggle');
+  var sysDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  function isDark() {
+    var t = root.getAttribute('data-theme');
+    return t ? t === 'dark' : !!(sysDark && sysDark.matches);
+  }
+  function syncIcon() { themeBtn.classList.toggle('is-dark', isDark()); }
+  syncIcon();
+  if (sysDark && sysDark.addEventListener) sysDark.addEventListener('change', syncIcon);
+  themeBtn.addEventListener('click', function () {
+    var next = isDark() ? 'light' : 'dark';
     root.setAttribute('data-theme', next);
+    syncIcon();
     try { localStorage.setItem('onyxaxis-theme', next); } catch (e) {}
   });
 
-  var archiveToggle = document.getElementById('archiveToggle');
-  var projectGrid = document.getElementById('projectGrid');
-  var projectCount = document.getElementById('projectCount');
-  var archivedCount = projectGrid.querySelectorAll('.card.archived').length;
-  var activeCount = projectGrid.querySelectorAll('.card').length - archivedCount;
+  /* ---- project filter ---- */
+  var grid = document.getElementById('projectGrid');
+  var cards = Array.prototype.slice.call(grid.querySelectorAll('.card'));
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var countEl = document.getElementById('projectCount');
 
-  function applyArchiveState(show) {
-    projectGrid.classList.toggle('show-archived', show);
-    projectCount.textContent = show ? (activeCount + archivedCount) + ' TOTAL' : activeCount + ' ACTIVE';
+  function countFor(f) {
+    return cards.filter(function (c) {
+      var cat = c.getAttribute('data-cat');
+      return f === 'all' ? cat !== 'archived' : cat === f;
+    }).length;
   }
-
-  var savedShowArchived = false;
-  try { savedShowArchived = localStorage.getItem('onyxaxis-show-archived') === '1'; } catch (e) {}
-  archiveToggle.checked = savedShowArchived;
-  applyArchiveState(savedShowArchived);
-
-  archiveToggle.addEventListener('change', function () {
-    applyArchiveState(archiveToggle.checked);
-    try { localStorage.setItem('onyxaxis-show-archived', archiveToggle.checked ? '1' : '0'); } catch (e) {}
+  document.querySelectorAll('[data-count]').forEach(function (el) {
+    el.textContent = countFor(el.getAttribute('data-count'));
   });
 
-  // Typewriter effect configuration
-  var typewriterText = document.getElementById('typewriter-text');
-  var typewriterCursor = document.getElementById('typewriter-cursor');
-  var phrases = ["OnyxAxis", "黑曜猫"];
-  var currentPhraseIndex = 0;
-  var currentCharIndex = phrases[currentPhraseIndex].length; // Start with full initial text
-  var isDeleting = true;
-  var typingSpeed = 120;   // Speed when typing a character
-  var deletingSpeed = 60;  // Speed when deleting a character
-  var delayBetweenPhrases = 3200; // Pause at the end of fully typed phrase
-  var delayBeforeTyping = 400;    // Pause when phrase is completely deleted
+  function applyFilter(f) {
+    cards.forEach(function (c) {
+      var cat = c.getAttribute('data-cat');
+      var show = f === 'all' ? cat !== 'archived' : cat === f;
+      c.classList.toggle('is-hidden', !show);
+      c.classList.remove('pop');
+      if (show) {
+        c.classList.add('in');          // never leave a filtered-in card unrevealed
+        if (!reduceMotion) { void c.offsetWidth; c.classList.add('pop'); }
+      }
+    });
+    // a lone card shouldn't leave a ragged featured span behind
+    grid.querySelector('.feat').style.gridColumn = (f === 'all' || f === 'ai') ? '' : 'auto';
+    countEl.textContent = countFor(f) + ' 个项目';
+    chips.forEach(function (b) {
+      var on = b.getAttribute('data-filter') === f;
+      b.classList.toggle('on', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+  }
+  chips.forEach(function (b) {
+    b.addEventListener('click', function () { applyFilter(b.getAttribute('data-filter')); });
+  });
+  applyFilter('all');
+  cards.forEach(function (c) { c.classList.remove('pop'); });
 
-  function tickTypewriter() {
-    var currentPhrase = phrases[currentPhraseIndex];
-    
-    if (isDeleting) {
-      // Deleting letters
-      currentCharIndex--;
-      typewriterCursor.classList.remove('blink'); // Solid cursor when typing/deleting
-    } else {
-      // Adding letters
-      currentCharIndex++;
-      typewriterCursor.classList.remove('blink');
-    }
+  /* ---- pointer spotlight on cards ---- */
+  grid.addEventListener('pointermove', function (e) {
+    var card = e.target.closest && e.target.closest('.card');
+    if (!card) return;
+    var r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
 
-    // Update HTML
-    typewriterText.textContent = currentPhrase.substring(0, currentCharIndex);
-
-    // Determine the next delay / phase transition
-    var nextTimeout = isDeleting ? deletingSpeed : typingSpeed;
-
-    if (!isDeleting && currentCharIndex === currentPhrase.length) {
-      // Fully typed: start flashing cursor and wait before deleting
-      isDeleting = true;
-      nextTimeout = delayBetweenPhrases;
-      typewriterCursor.classList.add('blink');
-    } else if (isDeleting && currentCharIndex === 0) {
-      // Fully deleted: switch to the next phrase and wait before typing
-      isDeleting = false;
-      currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
-      nextTimeout = delayBeforeTyping;
-      typewriterCursor.classList.add('blink');
-    }
-
-    setTimeout(tickTypewriter, nextTimeout);
+  /* ---- scroll reveal ---- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: .08, rootMargin: '0px 0px -4% 0px' });
+    revealEls.forEach(function (el, i) {
+      if (el.classList.contains('card')) el.style.setProperty('--d', ((i % 3) * 0.07) + 's');
+      io.observe(el);
+    });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
   }
 
-  // Start the typewriter loop after initial page load
-  window.addEventListener('DOMContentLoaded', function() {
-    // Initial delay so users can read the original title first
-    setTimeout(tickTypewriter, 1800);
-  });
+  /* ---- typewriter ---- */
+  var tw = document.getElementById('tw');
+  var cursor = document.getElementById('cursor');
+  var phrases = ['OnyxAxis', '黑曜猫'];
+  var pi = 0, ci = phrases[0].length, deleting = true;
+  function tick() {
+    var phrase = phrases[pi];
+    ci += deleting ? -1 : 1;
+    tw.textContent = phrase.substring(0, ci);
+    cursor.classList.remove('blink');
+    var wait = deleting ? 60 : 120;
+    if (!deleting && ci === phrase.length) {
+      deleting = true; wait = 3200; cursor.classList.add('blink');
+    } else if (deleting && ci === 0) {
+      deleting = false; pi = (pi + 1) % phrases.length; wait = 400; cursor.classList.add('blink');
+    }
+    setTimeout(tick, wait);
+  }
+  if (!reduceMotion) setTimeout(tick, 2200);
+})();
 </script>
 
 </body>
