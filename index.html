@@ -42,7 +42,6 @@
     --primary-hover: #303033;
     --badge-bg: rgba(24,24,27,0.10);
     --shadow: 0 8px 24px rgba(28,27,31,0.14);
-    --live: #22c55e;
     --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans", "Noto Sans SC", sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --ease: cubic-bezier(.16,1,.3,1);
@@ -100,8 +99,6 @@
   /* ---------- hero ---------- */
   .hero { padding: 104px 0 72px; }
   .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 64px; align-items: center; }
-  .eyebrow { display: inline-flex; align-items: center; gap: 9px; margin: 0 0 24px; color: var(--dim); font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
-  .eyebrow i { width: 6px; height: 6px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 3px color-mix(in srgb, var(--live) 22%, transparent); }
   .hero h1 { margin: 0; font-size: clamp(48px, 7.4vw, 92px); font-weight: 650; line-height: 1.08; letter-spacing: -.055em; display: flex; align-items: center; min-height: 1.15em; white-space: nowrap; }
   .cursor { display: inline-block; width: .075em; height: .8em; margin-left: .06em; background: var(--primary); border-radius: 2px; }
   .cursor.blink { animation: blink .95s step-end infinite; }
@@ -116,16 +113,11 @@
   .btn-primary { background: var(--primary); color: var(--primary-text); }
   .btn-primary:hover { background: var(--primary-hover); }
 
-  /* portrait — sits in a flat Arc-style panel; the avatar is the only colour on the page */
-  .portrait-panel { padding: 24px; border-radius: 18px; background: var(--surface); }
-  .portrait-head { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 13px; }
-  .portrait-head .badge { margin-left: auto; padding: 2px 9px; border-radius: 999px; background: var(--badge-bg); font-size: 12px; white-space: nowrap; }
-  .portrait { position: relative; aspect-ratio: 1; border-radius: 11px; overflow: hidden; background: var(--surface-hi); }
-  .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s var(--ease); }
-  .portrait:hover img { transform: scale(1.04); }
+  /* portrait — a bare circle, no frame, no hover effect */
+  .portrait-panel { display: grid; place-items: center; }
+  .portrait { position: relative; width: min(100%, 380px); aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: var(--surface-hi); }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .fallback-avatar { display: none; position: absolute; inset: 0; align-items: center; justify-content: center; font-size: 64px; font-weight: 650; color: var(--dim); }
-  .portrait-foot { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; font-size: 12px; color: var(--dim); }
-  .portrait-foot span:first-child { font-family: var(--font-mono); }
 
   /* ---------- projects ---------- */
   .projects { padding: 40px 0 40px; }
@@ -213,8 +205,8 @@
     .theme-fab { top: 14px; right: 16px; }
     .hero { padding: 72px 0 48px; }
     .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 36px; }
-    .portrait-panel { order: -1; padding: 18px; }
-    .portrait-panel .portrait { max-width: 300px; margin: 0 auto; }
+    .portrait-panel { order: -1; }
+    .portrait { width: min(100%, 220px); }
     .hero h1 { font-size: clamp(44px, 14vw, 68px); }
     .foot-card { grid-template-columns: minmax(0, 1fr); padding: 22px; }
   }
@@ -244,7 +236,6 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <div class="eyebrow reveal"><i></i>Personal Site</div>
         <h1 class="reveal" style="--d:.06s" aria-label="OnyxAxis">
           <span id="tw">OnyxAxis</span><span class="cursor blink" id="cursor"></span>
         </h1>
@@ -274,12 +265,10 @@
       </div>
 
       <aside class="portrait-panel reveal" style="--d:.1s">
-        <div class="portrait-head"><strong>OnyxAxis</strong><span class="badge">黑曜猫</span></div>
         <div class="portrait">
           <img src="avatar.jpg" alt="OnyxAxis 黑曜猫的头像" width="640" height="640" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="fallback-avatar">OA</div>
         </div>
-        <div class="portrait-foot"><span>@OnyxAxisOwO</span><span>极简 · 开源 · 实验</span></div>
       </aside>
     </div>
   </section>
